@@ -21,7 +21,19 @@ public class Map {
     }
 
     int get(int x, int y) {
-        return noiseMap.getRGB((int) (this.x / TILE_SIZE) + x, (int) (this.y / TILE_SIZE) + y);
+        int tileX = (int) (this.x / TILE_SIZE);
+        int tileY = (int) (this.y / TILE_SIZE);
+        int mapX = tileX + x;
+        int mapY = tileY + y;
+        if (mapX >= 0 && mapY >= 0 && mapX < noiseMap.getWidth() && mapY < noiseMap.getHeight()) {
+            try {
+                return noiseMap.getRGB(mapX, mapY);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println(mapX + ", " + mapY + " " + noiseMap.getWidth() + ", " + noiseMap.getHeight());
+                return 0;
+            }
+        }
+        return 0;
     }
 
     void set(int x, int y, int color) {
